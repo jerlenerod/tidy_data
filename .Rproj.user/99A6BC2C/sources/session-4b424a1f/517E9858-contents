@@ -1,0 +1,33 @@
+---
+title: "some vowels"
+date: "today"
+output: 
+  html_document: 
+    highlight: espresso
+    theme: united
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, 'setup'}
+library("tidyverse")
+library("untidydata")
+```
+
+```{r, plot-vowels, out.width= "100%", fig.retina=2}
+spanish_vowels
+
+spanish_vowels %>%
+  separate(col = label, 
+            into = c ("id", "sex", "vowel"), 
+            sep = "-") %>%
+ggplot() +
+aes (x = f2, y = f1, label = vowel, color = vowel) + 
+  facet_grid(. ~ sex) +
+  geom_text(alpha = 0.3) + 
+  scale_y_reverse () + 
+  scale_x_reverse()
+ 
+  
+```
+

@@ -1,0 +1,106 @@
+library(tidyverse)
+library(ds4ling)
+
+test_scores_rm
+
+# select()
+select(test_scores_rm, id, test2)
+select(test_scores_rm, spec:test2)
+select(test_scores_rm, participant = id)
+
+glimpse(mtcars)
+select(mtcars, cyl, hp, wt)
+select(mtcars, am:carb)
+select(mtcars, hello_world = mpg)
+
+# Filter()
+
+# Filter rows in which mpg is less than 20 and greater than 14
+filter(mtcars, mpg < 20 & mpg > 14)
+
+# Filter rows in which cyl is equal to 6
+filter(mtcars, cyl == 6)
+
+# Filter rows in which mpg is greater than 20 or disp is less than 200
+filter(mtcars, mpg > 20 | disp < 200)
+
+filter(test_scores_rm, spec == "g1_lo")
+
+mtcars %>% 
+  select(mpg, disp) %>% 
+  filter(mpg > 20) %>% 
+  ggplot() + 
+  aes(x = disp, y = mpg) + 
+  geom_point()
+
+# arrange()
+
+#Arrange the mtcars dataset based on cyl and disp
+#Arrange the mtcars dataset based on mpg from highest to lowest
+
+# mutate()
+
+# select the mpg column and then...
+# create a new column called mpg_x2 that 
+# doubles every value in the dataframe
+
+# center mpg (mpg_c)
+
+# create a new column called value that applies 
+# the label 'good' to cars that get over 18 mpg 
+# and the label 'bad' to cars that get 18 mpg or less
+mtcars %>% 
+  select(mpg) %>% 
+  mutate(
+    mpg_x2 = mpg * 2, 
+    mpg_c = mpg - mean(mpg), 
+    value = if_else(mpg <= 18, "bad", "good")
+  )
+
+# group_by() + summarize()
+# Calculate the mean value of mpg in the dataset mtcars
+mtcars %>% 
+  summarize(avg = mean(mpg))
+
+mean(mtcars$mpg)
+
+# Calculate the mean value of mpg as a function of cyl
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarize(avg = mean(mpg))
+
+# Calculate the mean, standard deviation, min, and 
+# max of mpg as a function of cyl
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarize(
+    avg = mean(mpg), 
+    sd  = sd(mpg), 
+    min = min(mpg), 
+    max = max(mpg)
+
+
+#
+#tidyr
+test_scores_rm %>%
+  separate(col = id, into = c("lang", "trash"), sep= 4, remove= FALSE) %>%
+  select(-trash) %>%
+  separate (col = spec, into = c("group", "level"), sep = "_")
+#unite
+#pivot_longer used to be called gather 
+#cols which columns are you turning into a new column
+#pivot_longer
+test_scores_rm %>%
+  pivot_longer(cols= test1:test2, names_to = "test", values_to = "scores")
+
+#pivot_wider used to be called spread 
+
+
+#fit a model with the lm function
+#
+
+mod1 <- lm(mpg ~ wt, data = mtcars)
+summary(mod1)
+
+#
+#to create a website you need to create a repo on github every time 
